@@ -5,14 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
             "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
             "program": "${workspaceFolder}/main.exe",
-            "preLaunchTask": "gcc build active file"
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "c://MinGW/bin/gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "gcc.exe build active file"
         }
     ]
 }

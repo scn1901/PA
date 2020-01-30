@@ -1,13 +1,15 @@
 #include "fitbit.h"
 
 void sort(Fitbit fitbitArr[DATAMAX], FILE *data){
-	int h = 0;
+	int h = 0, isDuplicate = 0;
 	char *dataLine = NULL;
 	char *element = NULL;
+
 	//trash value for first line 
 	dataLine = (char*)malloc(LINEMAX);
 	fgets(dataLine, LINEMAX, data);
 	while (fgets(dataLine, LINEMAX, data)){
+		isDuplicate = 0;
 		
 		//printf("%d: %s", h, dataLine);
 		//0 (patient)
@@ -20,18 +22,24 @@ void sort(Fitbit fitbitArr[DATAMAX], FILE *data){
 			//1 (minute)
 			element = strtok(NULL, ",");
 
-			if (strcmp(element, fitbitArr[h - 1].minute)){
+			for (int j = h - 1; j >= 0; --j) {
+				if (!strcmp(element, fitbitArr[j].minute))
+					isDuplicate = 1;
+			}
+			
+			if (!isDuplicate) {
+
 				strcpy(fitbitArr[h].minute, element);
 				printf(" %s",fitbitArr[h].minute);
 				//2 (calories)
 				element = strtok(NULL,",");
 				printf(" %s", element);
-				fitbitArr[h].calories = charToDouble(element);
+				fitbitArr[h].calories = atof(element);
 				printf(" %lf", fitbitArr[h].calories);
 
 				//3 (distance)
 				element = strtok(NULL,",");
-				fitbitArr[h].distance = charToDouble(element);
+				fitbitArr[h].distance = atof(element);
 				printf(" %lf ", fitbitArr[h].distance);
 
 				//4 (floors)
